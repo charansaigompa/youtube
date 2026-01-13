@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import { cacheResults } from "../utils/searchSlice";
-import { useNavigate } from "react-router-dom";
 import { useHandleSearchVideoAPI } from "../hooks/useHandleSearchVideoApi";
 
 const Header = () => {
+  const inputRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [sugBox, setSugBox] = useState(false);
   const handleSearch = useHandleSearchVideoAPI();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const searchCache = useSelector((store) => store.search);
 
   const toggleMenuHandler = () => {
@@ -31,10 +30,9 @@ const Header = () => {
   }, [searchQuery]);
 
   const getSearchSuggestion = async () => {
-    // console.log(searchQuery);
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const json = await data.json();
-    // console.log(json[1]);
+
     setSuggestions(json[1]);
     dispatch(
       cacheResults({
@@ -60,39 +58,39 @@ const Header = () => {
         />
       </div>
       <div className="col-span-10 relative">
-        <div className="flex">
+        <form
+          className="flex"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearch(searchQuery);
+          }}
+        >
           <input
+            ref={inputRef}
             type="text"
             className=" w-1/2 border border-gray-400 px-5 py-2 text-[#FFFFFF] rounded-l-full"
             value={searchQuery}
             onChange={(e) => {
-              const text=e.target.value
+              const text = e.target.value;
               setSearchQuery(e.target.value);
-              if(text!==""){
-                setSugBox(true)
-              }
-              else{
-                setSugBox(false)
+              if (text !== "") {
+                setSugBox(true);
+              } else {
+                setSugBox(false);
               }
             }}
             onBlur={() => {
               setSugBox(false);
             }}
           />
-          <button
-            className="border border-gray-400 px-5 py-2 rounded-r-full bg-[#303030] "
-            onClick={() => {
-              handleSearch(searchQuery);
-              setSearchQuery("");
-            }}
-          >
+          <button className="border border-gray-400 px-5 py-2 rounded-r-full bg-[#303030] ">
             <img
               src="https://static.vecteezy.com/system/resources/previews/025/213/365/original/search-icon-in-black-square-png.png"
               alt="img"
               className="h-8 w-8"
             />
           </button>
-        </div>
+        </form>
         {sugBox && (
           <div className="absolute text-[#FFFFFF]  w-[33rem] px-5 py-3 rounded-lg bg-[#181818] border border-amber-50">
             <ul>
@@ -100,8 +98,11 @@ const Header = () => {
                 <li
                   key={s}
                   className="px-3 py-2  hover:bg-[#303030]"
-                  onMouseDown={() => {
+                  onMouseDown={(e) => {
+                    e.preventDefault();
                     setSearchQuery(s);
+                    setSugBox(false);
+                    inputRef.current.focus();
                   }}
                 >
                   {s}
