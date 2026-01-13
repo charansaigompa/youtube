@@ -3,62 +3,6 @@ import { COMMENTS_API } from "../utils/constants";
 import CommentsList from "./CommentList";
 
 
-const commentsData = [
-  {
-    name: "Charan",
-    text: "this is the example comment for learning purpose",
-    replies: [],
-  },
-  {
-    name: "Charan",
-    text: "this is the example comment for learning purpose",
-    replies: [
-      {
-        name: "Charan",
-        text: "this is the example comment for learning purpose",
-        replies: [
-          {
-            name: "Charan",
-            text: "this is the example comment for learning purpose",
-            replies: [
-              {
-                name: "Charan",
-                text: "this is the example comment for learning purpose",
-                replies: [],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        name: "Charan",
-        text: "this is the example comment for learning purpose",
-        replies: [],
-      },
-    ],
-  },
-  {
-    name: "Charan",
-    text: "this is the example comment for learning purpose",
-    replies: [],
-  },
-  {
-    name: "Charan",
-    text: "this is the example comment for learning purpose",
-    replies: [],
-  },
-  {
-    name: "Charan",
-    text: "this is the example comment for learning purpose",
-    replies: [],
-  },
-  {
-    name: "Charan",
-    text: "this is the example comment for learning purpose",
-    replies: [],
-  },
-]
-
 const CommentsContainer = ({videoId}) => {
   useEffect(()=>{
      getComments();
@@ -72,7 +16,7 @@ const [commentsD,setCommentsD]=useState([])
    setCommentsD(json.items)
 
   }
-  
+  if(commentsD.length==0) return <h1 className="font-medium text-center text-2xl"> Comments</h1>
   return (
     <div className="">
       <h1 className="font-bold text-xl">Comments:</h1>
