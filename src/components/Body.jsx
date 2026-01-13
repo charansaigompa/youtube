@@ -9,8 +9,8 @@ import Header from './Header';
 
 const Body = () => {
   return (
-    <div><Header/>
-    <div className='grid  grid-flow-col '>
+    <div className='bg-[#0F0F0F]'><Header/>
+    <div className='grid  grid-flow-col bg-[#0F0F0F] '>
       
       <SideBar/>
       

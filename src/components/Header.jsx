@@ -3,37 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import { cacheResults } from "../utils/searchSlice";
-import { YOUTUBE_SEARCHED_VIDEO_API } from "../utils/constants";
-import { addVideos } from "../utils/videosSearch";
 import { useNavigate } from "react-router-dom";
-
-
-
-
+import { useHandleSearchVideoAPI } from "../hooks/useHandleSearchVideoApi";
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [sugBox, setSugBox] = useState(false);
+  const handleSearch = useHandleSearchVideoAPI();
   const dispatch = useDispatch();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const searchCache = useSelector((store) => store.search);
-
-
-  const handleSearchVideoAPI=async()=>{
-    const data= await fetch(YOUTUBE_SEARCHED_VIDEO_API+searchQuery)
-    const json=await data.json();
-    console.log(json);
-    dispatch(addVideos(json.items))
-    navigate("/searchvideos")
-
-
-
-
-
-
-
-  }
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
@@ -44,7 +24,7 @@ const Header = () => {
       if (searchCache[searchQuery]) {
         setSuggestions(searchCache[searchQuery]);
       } else getSearchSuggestion();
-    }, 300);
+    }, 200);
     return () => {
       clearTimeout(timer);
     };
@@ -63,19 +43,19 @@ const Header = () => {
     );
   };
   return (
-    <div className="grid grid-flow-col p-3 m-2 shadow-lg">
+    <div className="grid grid-flow-col p-3  shadow-lg bg-[#0F0F0F]">
       <div className="flex col-span-1">
         <img
           onClick={() => {
             toggleMenuHandler();
           }}
-          className="h-12"
-          src="https://static.vecteezy.com/system/resources/previews/021/190/402/original/hamburger-menu-filled-icon-in-transparent-background-basic-app-and-web-ui-bold-line-icon-eps10-free-vector.jpg"
+          className="h-8 m-2"
+          src="https://tse4.mm.bing.net/th/id/OIP.J3re3VyPQSCabHjyQI2TiAHaHa?pid=Api&P=0&h=180"
           alt="menu"
         />
         <img
           className="h-12 mx-2"
-          src="https://logos-world.net/wp-content/uploads/2020/04/YouTube-Logo-2017-present.jpg"
+          src="https://tse1.mm.bing.net/th/id/OIP.iDZzfhJwEwaRvnMUXZOd2wHaEG?pid=Api&P=0&h=180"
           alt="youtube-logo"
         />
       </div>
@@ -83,39 +63,46 @@ const Header = () => {
         <div className="flex">
           <input
             type="text"
-            className=" w-1/2 border border-gray-400 px-5 py-2 rounded-l-full"
+            className=" w-1/2 border border-gray-400 px-5 py-2 text-[#FFFFFF] rounded-l-full"
             value={searchQuery}
             onChange={(e) => {
+              const text=e.target.value
               setSearchQuery(e.target.value);
-            }}
-            onFocus={() => {
-              setSugBox(true);
+              if(text!==""){
+                setSugBox(true)
+              }
+              else{
+                setSugBox(false)
+              }
             }}
             onBlur={() => {
               setSugBox(false);
             }}
           />
-          <button className="border border-gray-400 px-5 py-2 rounded-r-full bg-gray-100 "
-          onClick={handleSearchVideoAPI}
+          <button
+            className="border border-gray-400 px-5 py-2 rounded-r-full bg-[#303030] "
+            onClick={() => {
+              handleSearch(searchQuery);
+              setSearchQuery("");
+            }}
           >
             <img
-              src="https://static.vecteezy.com/system/resources/previews/015/397/473/original/magnifying-glass-icon-glass-search-magnifier-loupe-find-zoom-symbol-sign-free-vector.jpg"
+              src="https://static.vecteezy.com/system/resources/previews/025/213/365/original/search-icon-in-black-square-png.png"
               alt="img"
-              className="h-8 w-6"
+              className="h-8 w-8"
             />
           </button>
         </div>
         {sugBox && (
-          <div className="absolute bg-white w-[33rem] px-5 py-3 rounded-lg border border-gray-50">
+          <div className="absolute text-[#FFFFFF]  w-[33rem] px-5 py-3 rounded-lg bg-[#181818] border border-amber-50">
             <ul>
               {suggestions.map((s) => (
                 <li
                   key={s}
-                  className="px-3 py-2  hover:bg-gray-50"
-                   onMouseDown={() => {
-                        setSearchQuery(s);   
-                           
-          }}
+                  className="px-3 py-2  hover:bg-[#303030]"
+                  onMouseDown={() => {
+                    setSearchQuery(s);
+                  }}
                 >
                   {s}
                 </li>
