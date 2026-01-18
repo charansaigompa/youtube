@@ -3,7 +3,7 @@ import React from "react";
 const Comment = ({ data }) => {
   const { snippet } = data;
   const { topLevelComment } = snippet;
-  console.log("IMG URL:", topLevelComment.snippet.authorProfileImageUrl);
+  
   return (
     <div className="flex shadow-lg  p-2 m-2 bg-[#212121] text-amber-50">
       <img

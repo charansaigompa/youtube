@@ -14,12 +14,12 @@ const SearchVideo = () => {
  
   const dispatch=useDispatch()
     const videos=useSelector(store=>store.videos.searchedVideos)
-    console.log(videos)
+    
      useEffect(()=>{
  if(videos) dispatch(addWatchPageVideos(videos))
   },[videos])
    
-      if(videos.length==0) return<ShimmerUI/>
+      if(videos.length==0||!videos) return<ShimmerUI/>
   return (
     <div className='flex flex-wrap '>
       

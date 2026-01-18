@@ -12,7 +12,7 @@ const [commentsD,setCommentsD]=useState([])
   const getComments=async()=>{
     const data=await fetch(COMMENTS_API+videoId);
     const json=await data.json();
-    console.log(json);
+   
    setCommentsD(json.items)
 
   }
