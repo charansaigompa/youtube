@@ -2,7 +2,7 @@ import React from "react";
 import Comment from "./Comment";
 
 const CommentsList = ({ comments }) => {
-  console.log(comments);
+  
   return comments.map((comment, index) => (
     <div>
       <Comment key={comment.id} data={comment} />
