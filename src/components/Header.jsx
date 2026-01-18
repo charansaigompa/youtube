@@ -57,9 +57,9 @@ const Header = () => {
           alt="youtube-logo"
         />
       </div>
-      <div className="col-span-10 relative">
+      <div className="col-span-10 ">
         <form
-          className="flex"
+          className="flex justify-center relative"
           onSubmit={(e) => {
             e.preventDefault();
             handleSearch(searchQuery);
@@ -85,14 +85,14 @@ const Header = () => {
           />
           <button className="border border-gray-400 px-5 py-2 rounded-r-full bg-[#303030] ">
             <img
-              src="https://static.vecteezy.com/system/resources/previews/025/213/365/original/search-icon-in-black-square-png.png"
+              src="https://tse1.mm.bing.net/th/id/OIP.TSoEDW4tts1Q-zUTOe3ovgHaHa?pid=Api&P=0&h=180"
               alt="img"
               className="h-8 w-8"
             />
           </button>
         </form>
         {sugBox && (
-          <div className="absolute text-[#FFFFFF]  w-[33rem] px-5 py-3 rounded-lg bg-[#181818] border border-amber-50">
+          <div className="absolute m-1 text-[#FFFFFF] left-120  w-[33rem] px-5 py-3 rounded-lg bg-[#181818] border border-amber-50">
             <ul>
               {suggestions.map((s) => (
                 <li
