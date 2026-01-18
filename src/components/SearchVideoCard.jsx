@@ -1,5 +1,5 @@
 const SearchVideoCard = ({info}) => {
-   // console.log(info)
+   
     const {snippet}=info;
     const {channelTitle,title,thumbnails}=snippet
 
