@@ -33,14 +33,14 @@ const WatchPage = () => {
         </div>
       </div>
 
-      <div className="flex w-full h-svh">
+      {currentVideo&&(<div className="flex w-full h-svh">
         <div className="w-[68%] overflow-y-auto  scrollbar-hide p-4">
           <CommentsContainer videoId={searchParams.get("v")} />
         </div>
         <div className="w-[32%]  mt-4 overflow-y-auto scrollbar-hide  ">
           <SuggestedVideos />
         </div>
-      </div>
+      </div>)}
     </div>
   );
 };
